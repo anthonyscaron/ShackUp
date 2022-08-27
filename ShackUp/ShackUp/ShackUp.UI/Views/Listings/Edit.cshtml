@@ -1,0 +1,95 @@
+﻿@model ShackUp.UI.Models.ListingEditViewModel
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h2>Edit Listing</h2>
+        @using (Html.BeginForm("Edit", "Listings", FormMethod.Post, new { id = "formEditListing", enctype = "multipart/form-data" }))
+        {
+            @Html.ValidationSummary()
+            @Html.HiddenFor(m=>m.Listing.ListingId)
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    <label>Nickname</label>
+                    @Html.TextBoxFor(m => m.Listing.Nickname, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>City</label>
+                    @Html.TextBoxFor(m => m.Listing.City, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>State</label>
+                    @Html.DropDownListFor(m => m.Listing.StateId, Model.States, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Rate</label>
+                    @Html.TextBoxFor(m => m.Listing.Rate, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Square Footage</label>
+                    @Html.TextBoxFor(m => m.Listing.SquareFootage, new { @class = "form-control" })
+                </div>
+                <div class="checkbox">
+                    <label>
+                        @Html.CheckBoxFor(m => m.Listing.HasElectric) electric
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        @Html.CheckBoxFor(m => m.Listing.HasElectric) heat
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Bathroom</label>
+                    @Html.DropDownListFor(m => m.Listing.BathroomTypeId, Model.BathroomTypes, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    @Html.TextAreaFor(m => m.Listing.ListingDescription, new { @class = "form-control" })
+                </div>
+                <button class="btn btn-primary">Save</button>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <img src="@Url.Content("~/Images/" + Model.Listing.ImageFileName)" />
+                <div class="form-group">
+                    <label>Replace Image</label>
+                    <input id="ImageUpload" name="ImageUpload" type="file" class="form-control" />
+                </div>
+            </div>    
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#formEditListing').validate({
+                rules: {
+                    'Listing.Nickname': {
+                        required: true
+                    },
+                    'Listing.City': {
+                        required: true
+                    },
+                    'Listing.Rate': {
+                        required: true,
+                        number: true,
+                        min: 1
+                    },
+                    'Listing.SquareFootage': {
+                        required: true,
+                        number: true,
+                        min: 1
+                    },
+                    'Listing.ListingDescription': {
+                        required: true
+                    }
+                }
+            })
+        })
+    </script>
+}
+

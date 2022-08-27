@@ -1,0 +1,189 @@
+﻿@model ShackUp.Models.Queries.ListingItem
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h2>Listing Details</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-4">
+        <p class="recentListing"><img src="@Url.Content("~/Images/" + Model.ImageFileName)" /></p>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-8">
+        <table>
+            <tbody>
+                <tr>
+                    <td><strong>Location: </strong></td>
+                    <td>@Model.City, @Model.StateId</td>
+                </tr>
+                <tr>
+                    <td><strong>Rate: </strong></td>
+                    <td>@Model.Rate.ToString("c") / night</td>
+                </tr>
+                <tr>
+                    <td><strong>Size: </strong></td>
+                    <td>@Model.SquareFootage sq ft</td>
+                </tr>
+                <tr>
+                    <td><strong>Electric: </strong></td>
+                    <td>
+                        @if (Model.HasElectric)
+                        {
+                            <text>Yes</text>
+                        }
+                        else
+                        {
+                            <text>No</text>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Heat: </strong></td>
+                    <td>
+                        @if (Model.HasHeat)
+                        {
+                            <text>Yes</text>
+                        }
+                        else
+                        {
+                            <text>No</text>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Bathroom: </strong></td>
+                    <td>@Model.BathroomTypeName</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <p>@Model.ListingDescription</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <p>
+            @if (Request.IsAuthenticated)
+            {
+                <button id="btnContact" class="btn btn-default" onclick="addContact()">Contact Owner</button>
+                <button id="btnFavorite" class="btn btn-default" onclick="toggleFavorite()">Add to Favorites</button>
+            }
+            else
+            {
+                <text>@Html.ActionLink("Register", "Register", "Account") to contact the owner!</text>
+            }
+        </p>
+        <p id="statusMessage"></p>
+    </div>
+</div>
+@section Scripts
+{
+    @if (Request.IsAuthenticated)
+    {
+        <script>
+            var userId = '@ViewBag.UserId';
+            var listingId = @Model.ListingId;
+            var isFavorite = false;
+
+            $(document).ready(function () {
+                checkIfContact();
+                checkIfFavorite();
+            });
+
+            function checkIfFavorite() {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://localhost:44352/api/favorite/check/' + userId + '/' + listingId,
+                    success: function (response) {
+                        if (response == true) {
+                            isFavorite = true;
+                            $('#btnFavorite').html('Remove from Favorites').removeClass('btn-default').addClass('btn-danger');
+                        }
+                    },
+                    error: function () {
+                        $('#statusMessage').removeClass('bg-success').addClass('bg-danger').text('Could not check favorite!')
+                    }
+                });
+            }
+
+            function checkIfContact() {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://localhost:44352/api/contact/check/' + userId + '/' + listingId,
+                    success: function (response) {
+                        if (response == true) {
+                            $('#btnContact').hide();
+                        }
+                    },
+                    error: function () {
+                        $('#statusMessage').removeClass('bg-success').addClass('bg-danger').text('Could not check contact!')
+                    }
+                });
+            }
+
+            function addContact() {
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://localhost:44352/api/contact/add/' + userId + '/' + listingId,
+                    success: function () {
+                        $('#btnContact').hide();
+                        $('#successMessage').remove('bg-danger').addClass('bg-success').text('Contact requested!')
+                    },
+                    error: function () {
+                        $('#statusMessage').removeClass('bg-success').addClass('bg-danger').text('Could not add contact!')
+                    }
+                });
+            }
+
+            // function removeContact() {}
+
+            function toggleFavorite() {
+                if (isFavorite == true) {
+                    removeFavorite();
+                }
+                else
+                {
+                    addFavorite();
+                }
+            }
+
+            function addFavorite() {
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://localhost:44352/api/favorite/add/' + userId + '/' + listingId,
+                    success: function () {
+                        $('#btnFavorite').html('Remove from Favorites').removeClass('btn-default').addClass('btn-danger');
+                        $('#statusMessage').removeClass('bg-danger').addClass('bg-success').text('Favorite added!')
+                        isFavorite = true;
+                    },
+                    error: function () {
+                        $('#statusMessage').removeClass('bg-success').addClass('bg-danger').text('Could not add favorite!')
+                    }
+                });
+            }
+
+            function removeFavorite() {
+                $.ajax({
+                    type: 'DELETE',
+                    url: 'https://localhost:44352/api/favorite/remove/' + userId + '/' + listingId,
+                    success: function () {
+                        $('#btnFavorite').html('Add to Favorites').removeClass('btn-danger').addClass('btn-default');
+                        $('#statusMessage').removeClass('bg-success').addClass('bg-danger').text('Favorite removed!')
+                        isFavorite = false;
+                    },
+                    error: function () {
+                        $('#statusMessage').removeClass('bg-success').addClass('bg-danger').text('Could not remove favorite!')
+                    }
+                });
+            }
+        </script>
+    }
+}
+

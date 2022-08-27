@@ -1,0 +1,67 @@
+﻿@model ShackUp.UI.Models.UpdateAccountViewModel
+@{
+    ViewBag.Title = "UpdateAccount";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h2>My Account</h2>
+    </div>
+</div>
+<div class="row">
+    @Html.Partial("_SideNavPartial")
+    <div class="col-xs-10">
+        <h3>Update Account</h3>
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                @using (Html.BeginForm("UpdateAccount", "MyAccount", FormMethod.Post))
+                {
+                    <h4>Update Account Information</h4>
+                    <hr />
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        @Html.TextBoxFor(m => m.EmailAddress, new { @class="form-control"})
+                    </div>
+                    <div class="form-group">
+                        <label>State</label>
+                        @Html.DropDownListFor(m => m.StateId, Model.States, new { @class="form-control"})
+                    </div>
+                    <button class="btn btn-primary">Update</button>
+                }
+            </div>
+            <div class="col-xs-12 col-md-6">
+                @using (Html.BeginForm("ChangePassword", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken() 
+                    <h4>Change Password Form</h4>
+                    <hr />
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label for="OldPassword" class="col-md-2 control-label">Old Password</label>
+                        <div class="col-md-10">
+                            <input type="password" id="OldPassword" name="OldPassword" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="NewPassword" class="col-md-2 control-label">New Password</label>
+                        <div class="col-md-10">
+                            <input type="password" id="NewPassword" name="NewPassword" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ConfirmPassword" class="col-md-2 control-label">Confirm Password</label>
+                        <div class="col-md-10">
+                            <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Change password" class="btn btn-default" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

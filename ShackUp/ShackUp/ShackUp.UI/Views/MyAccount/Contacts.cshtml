@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ShackUp.Models.Queries.ContactRequestItem>
+@{
+    ViewBag.Title = "Contacts";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h2>My Account</h2>
+    </div>
+</div>
+<div class="row">
+    @Html.Partial("_SideNavPartial")
+    <div class="col-xs-10">
+        <h3>My Contacts</h3>
+        @if (Model.Any())
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Nickname</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var contact in Model)
+                    {
+                        <tr>
+                            <td>@contact.Email</td>
+                            <td>@contact.Nickname</td>
+                            <td>@contact.City</td>
+                            <td>@contact.StateId</td>
+                            <td>@contact.Rate.ToString("c")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>You do not have any contacts.</p>
+        }
+    </div>
+</div>
+

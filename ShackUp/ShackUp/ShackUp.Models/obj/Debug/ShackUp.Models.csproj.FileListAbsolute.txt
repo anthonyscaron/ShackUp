@@ -1,0 +1,12 @@
+C:\Bootcamp\Repos\online-net-2021-anthonyscaron\Classwork\Badge4\MyShackUp\ShackUp\ShackUp.Models\bin\Debug\ShackUp.Models.dll
+C:\Bootcamp\Repos\online-net-2021-anthonyscaron\Classwork\Badge4\MyShackUp\ShackUp\ShackUp.Models\bin\Debug\ShackUp.Models.pdb
+C:\Bootcamp\Repos\online-net-2021-anthonyscaron\Classwork\Badge4\MyShackUp\ShackUp\ShackUp.Models\obj\Debug\ShackUp.Models.csproj.CoreCompileInputs.cache
+C:\Bootcamp\Repos\online-net-2021-anthonyscaron\Classwork\Badge4\MyShackUp\ShackUp\ShackUp.Models\obj\Debug\ShackUp.Models.dll
+C:\Bootcamp\Repos\online-net-2021-anthonyscaron\Classwork\Badge4\MyShackUp\ShackUp\ShackUp.Models\obj\Debug\ShackUp.Models.pdb
+C:\Bootcamp\Repos\online-net-2021-anthonyscaron\Classwork\Badge4\MyShackUp\ShackUp\ShackUp.Models\obj\Debug\ShackUp.Models.csproj.AssemblyReference.cache
+C:\GithubRepos\ShackUp\ShackUp\ShackUp\ShackUp.Models\bin\Debug\ShackUp.Models.dll
+C:\GithubRepos\ShackUp\ShackUp\ShackUp\ShackUp.Models\bin\Debug\ShackUp.Models.pdb
+C:\GithubRepos\ShackUp\ShackUp\ShackUp\ShackUp.Models\obj\Debug\ShackUp.Models.csproj.AssemblyReference.cache
+C:\GithubRepos\ShackUp\ShackUp\ShackUp\ShackUp.Models\obj\Debug\ShackUp.Models.csproj.CoreCompileInputs.cache
+C:\GithubRepos\ShackUp\ShackUp\ShackUp\ShackUp.Models\obj\Debug\ShackUp.Models.dll
+C:\GithubRepos\ShackUp\ShackUp\ShackUp\ShackUp.Models\obj\Debug\ShackUp.Models.pdb

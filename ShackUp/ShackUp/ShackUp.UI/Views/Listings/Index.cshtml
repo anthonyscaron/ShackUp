@@ -1,0 +1,86 @@
+﻿@model IEnumerable<ShackUp.Models.Tables.State>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h2>Listings</h2>
+        <p>
+            Here you can search for a listing that meets your needs.
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <form id="searchForm" class="form-inline">
+            <div class="form-group">
+                <label for="minRate">Min Rate</label>
+                <input type="text" class="form-control" id="minRate" />
+            </div>
+            <div class="form-group">
+                <label for="maxRate">Max Rate</label>
+                <input type="text" class="form-control" id="maxRate" />
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" class="form-control" id="city" />
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                @Html.DropDownList("state", new SelectList(Model, "StateId", "StateName"), "Any")
+            </div>
+            <button type="submit" onclick="search()" class="btn btn-default">Search</button>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div id="searchResults" class="col-xs-12">
+
+    </div>
+</div>
+
+@section Scripts 
+{
+    <script>
+        $(document).ready(function () {
+            $('#searchForm').submit(function (e) {
+                search();
+                return false;
+            })
+        })
+
+        function search() {
+            var params;
+            var imagePath = '@Url.Content("~/Images/")';
+            var detailsPath = '@Url.Action("Details", "Listings")/';
+
+            params = 'minRate=' + $('#minRate').val() + '&maxRate=' + $('#maxRate').val() +
+                '&city=' + $('#city').val() + '&stateId=' + $('#state').val();
+            $.ajax({
+                type: 'GET',
+                url: 'https://localhost:44352/api/listings/search?' + params,
+                success: function (results) {
+                    $('#searchResults').empty();
+
+                    $.each(results, function (index, listing) {
+                        var html = '<div class="col-xs-12 col-sm-6 col-md-4">' +
+                            '<p class="recentListing"><img src="' + imagePath + listing.ImageFileName + '" /></p>' +
+                            '<p class="recentListing"><strong>' + listing.City + ', ' + listing.StateId + '</strong></p>' +
+                            '<p class="recentListing">' + listing.Rate + ' / night</p>' +
+                            '<p class="recentListing"><a href="' + detailsPath + listing.ListingId + '">view details</a></p>' +
+                            '</div>';
+
+                        //@*@Html.ActionLink("view details", "Details", "Listings", new { id = shack.ListingId }, null)*@
+
+                        $('#searchResults').append(html.toString());
+                    });
+                },
+                error: function () {
+                    alert('Error performing search, try again later!')
+                }
+            });
+        }
+    </script>
+}
+

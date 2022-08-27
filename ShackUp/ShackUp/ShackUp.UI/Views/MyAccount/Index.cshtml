@@ -1,0 +1,71 @@
+﻿@model IEnumerable<ShackUp.Models.Queries.ListingItem>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h2>My Account</h2>
+    </div>
+</div>
+<div class="row">
+    @Html.Partial("_SideNavPartial")
+    <div class="col-xs-10">
+        <h3>My Listings</h3>
+        @Html.ActionLink("Add a new listing", "Add", "Listings")
+        @if (Model.Any())
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nickname</th>
+                        <th>Location</th>
+                        <th>Rate</th>
+                        <th>Size</th>
+                        <th>Electric</th>
+                        <th>Heat</th>
+                        <th>Bathroom</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var listing in Model)
+                    {
+                        <tr>
+                            <td>@listing.Nickname</td>
+                            <td>@($"{listing.City}, {listing.StateId}")</td>
+                            <td>@listing.Rate.ToString("c")</td>
+                            <td>@listing.SquareFootage sq ft</td>
+                            <td>
+                                @if (listing.HasElectric)
+                                {
+                                    <text>Yes</text>
+                                }
+                                else
+                                {
+                                    <text>No</text>
+                                }
+                            </td>
+                            <td>
+                                @if (listing.HasHeat)
+                                {
+                                    <text>Yes</text>
+                                }
+                                else
+                                {
+                                    <text>No</text>
+                                }
+                            </td>
+                            <td>@listing.BathroomTypeName</td>
+                            <td>@Html.ActionLink("edit", "Edit", "Listings", new { id = listing.ListingId }, null)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>You do not have any listings.</p>
+        }
+    </div>
+</div>

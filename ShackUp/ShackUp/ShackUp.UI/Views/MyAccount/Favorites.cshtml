@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ShackUp.Models.Queries.FavoriteItem>
+@{
+    ViewBag.Title = "Favorites";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h2>My Account</h2>
+    </div>
+</div>
+<div class="row">
+    @Html.Partial("_SideNavPartial")
+    <div class="col-xs-10">
+        <h3>My Favorites</h3>
+        @if (Model.Any())
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Location</th>
+                        <th>Rate</th>
+                        <th>Size</th>
+                        <th>Electric</th>
+                        <th>Heat</th>
+                        <th>Bathroom</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var listing in Model)
+                    {
+                        <tr>
+                            <td>@($"{listing.City}, {listing.StateId}")</td>
+                            <td>@listing.Rate.ToString("c")</td>
+                            <td>@listing.SquareFootage sq ft</td>
+                            <td>
+                                @if (listing.HasElectric)
+                                {
+                                    <text>Yes</text>
+                                }
+                                else
+                                {
+                                    <text>No</text>
+                                }
+                            </td>
+                            <td>
+                                @if (listing.HasHeat)
+                                {
+                                    <text>Yes</text>
+                                }
+                                else
+                                {
+                                    <text>No</text>
+                                }
+                            </td>
+                            <td>@listing.BathroomTypeName</td>
+                            <td>
+                                @using (Html.BeginForm("DeleteFavorite", "MyAccount", FormMethod.Post))
+                                {
+                                    @Html.Hidden("ListingId", listing.ListingId)
+                                    <button class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this favorite?')">Delete</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>You do not have any favorites.</p>
+        }
+    </div>
+</div>
+
